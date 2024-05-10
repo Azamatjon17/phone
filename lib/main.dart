@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -33,6 +34,21 @@ class _MainBody extends State<MainBody> {
     setState(() {});
   }
 
+  formatnumber() {
+    if (number.length == 3) {
+      number += " (";
+    } else if (number.length == 7) {
+      number += ") ";
+    } else if (number.length == 12) {
+      number += "-";
+      setState(() {});
+    } else if (number.length == 15) {
+      number += "-";
+      setState(() {});
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10),
@@ -54,7 +70,7 @@ class _MainBody extends State<MainBody> {
                 children: <Widget>[
                   Text(
                     number,
-                    style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold, wordSpacing: 2),
+                    style: const TextStyle(fontSize: 45, fontWeight: FontWeight.bold, wordSpacing: 2),
                   ),
                   const Text(
                     "Add Number",
@@ -70,7 +86,7 @@ class _MainBody extends State<MainBody> {
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[for (var i = 0; i < 4; i++) Button(buttomnumbers[i][0], buttomnumbers[i][1], buttomnumbers[i][2], newsetstate)],
+              children: <Widget>[for (var i = 0; i < 4; i++) Button(buttomnumbers[i][0], buttomnumbers[i][1], buttomnumbers[i][2], newsetstate, formatnumber)],
             ),
           ),
           Row(
@@ -85,7 +101,7 @@ class _MainBody extends State<MainBody> {
               IconButton(
                   onPressed: () {
                     setState(() {
-                      number.length != 0 ? number = number.substring(0, number.length - 1) : null;
+                      number.isNotEmpty ? number = number.substring(0, number.length - 1) : null;
                     });
                   },
                   icon: const Icon(
@@ -109,7 +125,8 @@ class Button extends StatelessWidget {
   String n2;
   String n3;
   Function newsetstate;
-  Button(this.n1, this.n2, this.n3, this.newsetstate);
+  Function formatnumber;
+  Button(this.n1, this.n2, this.n3, this.newsetstate, this.formatnumber);
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -119,6 +136,7 @@ class Button extends StatelessWidget {
         InkWell(
           onTap: () {
             number += n1;
+            formatnumber();
             newsetstate();
           },
           child: Container(
@@ -136,6 +154,8 @@ class Button extends StatelessWidget {
         InkWell(
           onTap: () {
             number += n2;
+            formatnumber();
+
             newsetstate();
           },
           child: Container(
@@ -153,6 +173,8 @@ class Button extends StatelessWidget {
         InkWell(
           onTap: () {
             number += n3;
+            formatnumber();
+
             newsetstate();
           },
           child: Container(
